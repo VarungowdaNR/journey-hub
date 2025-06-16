@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make My Trip - Your Perfect Travel Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ee9048;
+            --primary-dark: #1634a0;
+            --secondary: #dbd177;
+            --accent: #f72585;
+            --accent-dark: #e01e76;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --darker: #121417;
+            --success: #4cc9f0;
+            --warning: #fca311;
+            --gradient: linear-gradient(135deg, #2bb519 0%, #585495 100%);
+            --gradient-dark: linear-gradient(135deg, #3a56d4 0%, #3830b8 100%);
+            --gradient-accent: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            --gradient-sunset: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #e0e7ff 0%, #d1d9ff 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(67, 97, 238, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-accent {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: var(--gradient-sunset);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(247, 37, 133, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+                        url('https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(transparent, var(--light));
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            line-height: 1.1;
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+            font-weight: 300;
+        }
+
+        .tagline {
+            display: inline-block;
+            background: var(--gradient-accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .search-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+            flex: 1;
+        }
+
+        .form-group label {
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group select {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Destinations Section */
+        .destinations {
+            padding: 6rem 0;
+            background: var(--light);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.6rem;
+            margin-bottom: 3.5rem;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .destination-img {
+            height: 240px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .destination-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+        }
+
+        .destination-info {
+            padding: 1.8rem;
+        }
+
+        .destination-info h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .destination-info p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .rating i {
+            color: var(--warning);
+            font-size: 1.1rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 0;
+            background: white;
+            position: relative;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            height: 100%;
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--gradient-accent);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Booking Section */
+        .booking-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+        }
+
+        .booking-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .booking-form-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-results {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-header {
+            margin-bottom: 2rem;
+        }
+
+        .booking-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .service-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: #f0f4ff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group-full {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-form label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .booking-form input, 
+        .booking-form select, 
+        .booking-form textarea {
+            padding: 1.1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .booking-form input:focus, 
+        .booking-form select:focus, 
+        .booking-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: 1.2rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        .results-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            padding: 1.8rem;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .result-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .result-info h4 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-info p {
+            color: #666;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .book-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+        }
+
+        /* User Dashboard */
+        .dashboard {
+            display: none;
+            background: white;
+            margin: 4rem 0;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .dashboard-header h2 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+
+        .welcome-message {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .welcome-message span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .booking-history {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .booking-item {
+            background: #f8f9fa;
+            padding: 1.8rem;
+            border-radius: 18px;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .booking-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .booking-info h4 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-info p {
+            color: #666;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .booking-info p i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .booking-status {
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            background: #e6f7ff;
+            color: var(--primary);
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .booking-status.confirmed {
+            background: #e6f7ff;
+            color: var(--primary);
+        }
+
+        .booking-status.completed {
+            background: #e6f4ea;
+            color: #0a8754;
+        }
+
+        .no-bookings {
+            text-align: center;
+            padding: 3rem;
+            background: #f8f9fa;
+            border-radius: 20px;
+            border: 2px dashed #e2e8f0;
+        }
+
+        .no-bookings i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .no-bookings h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Booking Form Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 3rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            animation: modalFade 0.4s ease;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: var(--accent);
+        }
+
+        .booking-header-modal {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .booking-header-modal h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-item-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-item-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .booking-form-modal {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .form-group-full {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-form-modal label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .booking-form-modal input, 
+        .booking-form-modal select, 
+        .booking-form-modal textarea {
+            padding: 1.1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .booking-form-modal input:focus, 
+        .booking-form-modal select:focus, 
+        .booking-form-modal textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .newsletter input {
+            padding: 0.9rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Floating elements */
+        .floating {
+            position: absolute;
+            z-index: 0;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 3.2rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                height: auto;
+                padding: 100px 0;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .search-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .modal-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-buttons {
+                gap: 0.5rem;
+            }
+            
+            .btn {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .destination-card, .service-card {
+                border-radius: 15px;
+            }
+            
+            .dashboard {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <i class="fas fa-plane"></i> Make My Trip
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#booking">Book Now</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn btn-secondary" onclick="showLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button class="btn btn-primary" onclick="showSignup()"><i class="fas fa-user-plus"></i> Sign Up</button>
+                <button class="btn btn-accent" id="dashboardBtn" style="display: none;" onclick="showDashboard()"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+                <button class="btn btn-secondary" id="logoutBtn" style="display: none;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="tagline">Best Travel Deals Guaranteed</div>
+                <h1>Discover Your Dream Destination</h1>
+                <p>Experience the world's most breathtaking locations with our expertly crafted travel packages</p>
+                
+                <div class="search-form">
+                    <div class="form-group">
+                        <label for="destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                        <select id="destination">
+                            <option value="">Select destination</option>
+                            <option value="paris">Paris, France</option>
+                            <option value="tokyo">Tokyo, Japan</option>
+                            <option value="bali">Bali, Indonesia</option>
+                            <option value="dubai">Dubai, UAE</option>
+                            <option value="london">London, UK</option>
+                            <option value="newyork">New York, USA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkin"><i class="far fa-calendar-alt"></i> Check-in</label>
+                        <input type="date" id="checkin">
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout"><i class="far fa-calendar-alt"></i> Check-out</label>
+                        <input type="date" id="checkout">
+                    </div>
+                    <div class="form-group">
+                        <label for="guests"><i class="fas fa-user-friends"></i> Guests</label>
+                        <select id="guests">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button class="btn btn-accent" onclick="searchDestinations()"><i class="fas fa-search"></i> Search</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="destinations" class="destinations">
+            <div class="container">
+                <h2 class="section-title">Popular Destinations</h2>
+                <div class="destinations-grid" id="destinationsGrid">
+                    <!-- Destinations will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-hotel"></i></div>
+                        <h3>Hotel Booking</h3>
+                        <p>Find and book the perfect accommodation for your stay</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-plane"></i></div>
+                        <h3>Flight Booking</h3>
+                        <p>Compare and book flights at the best prices</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-car"></i></div>
+                        <h3>Car Rental</h3>
+                        <p>Rent a car and explore your destination at your own pace</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-map-marked-alt"></i></div>
+                        <h3>Tour Packages</h3>
+                        <p>Curated tour packages for an unforgettable experience</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="booking" class="booking-section">
+            <div class="container">
+                <h2 class="section-title">Book Your Trip</h2>
+                <div class="booking-container">
+                    <div class="booking-form-container">
+                        <div class="booking-header">
+                            <h2>Find & Book</h2>
+                            <p>Select a service to book your next adventure</p>
+                        </div>
+                        
+                        <div class="service-tabs">
+                            <button class="tab-btn active" data-tab="hotels"><i class="fas fa-hotel"></i> Hotels</button>
+                            <button class="tab-btn" data-tab="flights"><i class="fas fa-plane"></i> Flights</button>
+                            <button class="tab-btn" data-tab="cars"><i class="fas fa-car"></i> Cars</button>
+                            <button class="tab-btn" data-tab="tours"><i class="fas fa-map"></i> Tours</button>
+                        </div>
+                        
+                        <div class="tab-content active" id="hotels-form">
+                            <form class="booking-form">
+                                <div class="form-group-full">
+                                    <label for="hotel-destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                                    <input type="text" id="hotel-destination" placeholder="Where are you going?" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="hotel-checkin"><i class="far fa-calendar-alt"></i> Check-in</label>
+                                        <input type="date" id="hotel-checkin" required>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="hotel-checkout"><i class="far fa-calendar-alt"></i> Check-out</label>
+                                        <input type="date" id="hotel-checkout" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="hotel-guests"><i class="fas fa-user-friends"></i> Guests</label>
+                                        <select id="hotel-guests">
+                                            <option value="1">1 Guest</option>
+                                            <option value="2" selected>2 Guests</option>
+                                            <option value="3">3 Guests</option>
+                                            <option value="4">4 Guests</option>
+                                            <option value="5">5+ Guests</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="hotel-rooms"><i class="fas fa-bed"></i> Rooms</label>
+                                        <select id="hotel-rooms">
+                                            <option value="1">1 Room</option>
+                                            <option value="2">2 Rooms</option>
+                                            <option value="3">3 Rooms</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary search-btn" type="button" onclick="searchHotels()">
+                                    <i class="fas fa-search"></i> Search Hotels
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-content" id="flights-form">
+                            <form class="booking-form">
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="flight-from"><i class="fas fa-plane-departure"></i> From</label>
+                                        <input type="text" id="flight-from" placeholder="Departure city" required>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="flight-to"><i class="fas fa-plane-arrival"></i> To</label>
+                                        <input type="text" id="flight-to" placeholder="Arrival city" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="flight-depart"><i class="far fa-calendar-alt"></i> Departure</label>
+                                        <input type="date" id="flight-depart" required>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="flight-return"><i class="far fa-calendar-alt"></i> Return (Optional)</label>
+                                        <input type="date" id="flight-return">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="flight-class"><i class="fas fa-chair"></i> Class</label>
+                                        <select id="flight-class">
+                                            <option value="economy">Economy</option>
+                                            <option value="premium">Premium Economy</option>
+                                            <option value="business">Business</option>
+                                            <option value="first">First Class</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="flight-passengers"><i class="fas fa-user-friends"></i> Passengers</label>
+                                        <select id="flight-passengers">
+                                            <option value="1">1 Passenger</option>
+                                            <option value="2" selected>2 Passengers</option>
+                                            <option value="3">3 Passengers</option>
+                                            <option value="4">4 Passengers</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary search-btn" type="button" onclick="searchFlights()">
+                                    <i class="fas fa-search"></i> Search Flights
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-content" id="cars-form">
+                            <form class="booking-form">
+                                <div class="form-group-full">
+                                    <label for="car-location"><i class="fas fa-map-marker-alt"></i> Pickup Location</label>
+                                    <input type="text" id="car-location" placeholder="City or airport" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="car-pickup"><i class="far fa-calendar-alt"></i> Pickup Date</label>
+                                        <input type="date" id="car-pickup" required>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="car-dropoff"><i class="far fa-calendar-alt"></i> Dropoff Date</label>
+                                        <input type="date" id="car-dropoff" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="car-type"><i class="fas fa-car"></i> Car Type</label>
+                                        <select id="car-type">
+                                            <option value="economy">Economy</option>
+                                            <option value="compact">Compact</option>
+                                            <option value="midsize">Midsize</option>
+                                            <option value="suv">SUV</option>
+                                            <option value="luxury">Luxury</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="car-drivers"><i class="fas fa-user"></i> Drivers</label>
+                                        <select id="car-drivers">
+                                            <option value="1">1 Driver</option>
+                                            <option value="2">2 Drivers</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary search-btn" type="button" onclick="searchCars()">
+                                    <i class="fas fa-search"></i> Search Cars
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-content" id="tours-form">
+                            <form class="booking-form">
+                                <div class="form-group-full">
+                                    <label for="tour-destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                                    <input type="text" id="tour-destination" placeholder="Where do you want to go?" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="tour-date"><i class="far fa-calendar-alt"></i> Tour Date</label>
+                                        <input type="date" id="tour-date" required>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="tour-duration"><i class="fas fa-clock"></i> Duration</label>
+                                        <select id="tour-duration">
+                                            <option value="1">1 Day</option>
+                                            <option value="3">3 Days</option>
+                                            <option value="5">5 Days</option>
+                                            <option value="7">7 Days</option>
+                                            <option value="10">10+ Days</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group-full">
+                                        <label for="tour-type"><i class="fas fa-route"></i> Tour Type</label>
+                                        <select id="tour-type">
+                                            <option value="cultural">Cultural</option>
+                                            <option value="adventure">Adventure</option>
+                                            <option value="beach">Beach</option>
+                                            <option value="wildlife">Wildlife</option>
+                                            <option value="culinary">Culinary</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group-full">
+                                        <label for="tour-participants"><i class="fas fa-user-friends"></i> Participants</label>
+                                        <select id="tour-participants">
+                                            <option value="1">1 Person</option>
+                                            <option value="2" selected>2 People</option>
+                                            <option value="4">4 People</option>
+                                            <option value="6">6 People</option>
+                                            <option value="8">8+ People</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary search-btn" type="button" onclick="searchTours()">
+                                    <i class="fas fa-search"></i> Search Tours
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-results">
+                        <div class="booking-header">
+                            <h2>Available Options</h2>
+                            <p>Select from the best travel options for your trip</p>
+                        </div>
+                        <div class="results-grid" id="bookingResults">
+                            <div class="no-bookings">
+                                <i class="fas fa-search"></i>
+                                <h3>Search for Travel Options</h3>
+                                <p>Use the form to search for hotels, flights, cars, or tours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Dashboard -->
+        <section class="container">
+            <div class="dashboard" id="userDashboard">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Travel Dashboard</h2>
+                        <p class="welcome-message">Welcome back, <span id="userName"></span>! Ready for your next adventure?</p>
+                    </div>
+                </div>
+                <div class="booking-history">
+                    <h3>Your Bookings</h3>
+                    <div id="bookingsList">
+                        <!-- Bookings will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAuthModal()">&times;</span>
+            <div id="authContent">
+                <!-- Auth forms will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Form Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBookingModal()">&times;</span>
+            <div class="booking-header-modal">
+                <h2>Complete Your Booking</h2>
+                <div class="booking-item-name" id="bookingItemName"></div>
+                <div class="booking-item-price" id="bookingItemPrice"></div>
+            </div>
+            <form class="booking-form-modal" onsubmit="submitBooking(event)">
+                <input type="hidden" id="bookingType">
+                <input type="hidden" id="bookingItem">
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <label for="bookingFullName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="bookingFullName" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <label for="bookingEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="bookingEmail" placeholder="Enter your email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <label for="bookingPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="bookingPhone" placeholder="Enter your phone number" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <label for="bookingDate"><i class="far fa-calendar"></i> Travel Date</label>
+                        <input type="date" id="bookingDate" required>
+                    </div>
+                    <div class="form-group-full">
+                        <label for="bookingGuests"><i class="fas fa-user-friends"></i> Guests</label>
+                        <select id="bookingGuests" required>
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5+ Guests</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group-full">
+                        <label for="bookingNotes"><i class="fas fa-edit"></i> Special Requirements</label>
+                        <textarea id="bookingNotes" placeholder="Any special requirements or notes" rows="3"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-accent"><i class="fas fa-check-circle"></i> Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Make My Trip</h3>
+                    <p>Your trusted partner for unforgettable travel experiences. We make travel planning simple and enjoyable.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+<a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+<a href="https://pinterest.com" target="_blank"><i class="fab fa-pinterest"></i></a>
+
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="#destinations"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="#booking"><i class="fas fa-chevron-right"></i> Book Now</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Special Offers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Booking Guide</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cancellation Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Travel Street, New York, NY</li>
+                        <li><i class="fas fa-phone"></i> +91 8722001217</li>
+                        <li><i class="fas fa-envelope"></i> info@makemytrip.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9AM - 8PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; Property of Varun NR © 2025. All rights reserved. | Made with <i class="fas fa-heart" style="color: rgb(255, 47, 61);"></i> for travelers  varun</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data
+        const destinations = [
+            {
+                id: 'paris',
+                name: 'Paris, France',
+                description: 'The City of Light awaits with its romantic charm and iconic landmarks. Experience world-class cuisine, art, and architecture.',
+                price: '$899',
+                image: 'Eiffel Tower & Seine River',
+                rating: 4.8
+            },
+            {
+                id: 'tokyo',
+                name: 'Tokyo, Japan',
+                description: 'Experience the perfect blend of tradition and modernity in Japan\'s capital. From ancient temples to futuristic technology.',
+                price: '$1299',
+                image: 'Shibuya Crossing & Mt. Fuji',
+                rating: 4.9
+            },
+            {
+                id: 'bali',
+                name: 'Bali, Indonesia',
+                description: 'Tropical paradise with stunning beaches and rich cultural heritage. Perfect for relaxation and adventure seekers.',
+                price: '$699',
+                image: 'Rice Terraces & Temples',
+                rating: 4.7
+            },
+            {
+                id: 'dubai',
+                name: 'Dubai, UAE',
+                description: 'Luxury and adventure in the heart of the Middle East. Experience desert safaris and world-record architecture.',
+                price: '$1099',
+                image: 'Burj Khalifa & Desert Safari',
+                rating: 4.6
+            },
+            {
+                id: 'london',
+                name: 'London, UK',
+                description: 'Historic charm meets modern sophistication in Britain\'s capital. Explore royal palaces, museums, and vibrant neighborhoods.',
+                price: '$949',
+                image: 'Big Ben & Thames River',
+                rating: 4.5
+            },
+            {
+                id: 'newyork',
+                name: 'New York, USA',
+                description: 'The city that never sleeps offers endless possibilities. Iconic skyline, Broadway shows, and diverse cuisine.',
+                price: '$1199',
+                image: 'Times Square & Central Park',
+                rating: 4.7
+            }
+        ];
+
+        // Application state
+        let currentUser = null;
+        let userBookings = [];
+        let currentService = 'hotels';
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDestinations();
+            checkUserSession();
+            setMinDate();
+            setupServiceTabs();
+            
+            // Add floating elements to hero section
+            createFloatingElements();
+        });
+
+        // Set up service tabs
+        function setupServiceTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Hide all tab content
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show the corresponding tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-form`).classList.add('active');
+                    
+                    // Update current service
+                    currentService = tabId;
+                    
+                    // Clear results
+                    document.getElementById('bookingResults').innerHTML = `
+                        <div class="no-bookings">
+                            <i class="fas fa-search"></i>
+                            <h3>Search for ${this.textContent.trim()}</h3>
+                            <p>Use the form to search for available options</p>
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // Create floating elements
+        function createFloatingElements() {
+            const hero = document.querySelector('.hero');
+            for (let i = 0; i < 5; i++) {
+                const floating = document.createElement('div');
+                floating.classList.add('floating');
+                floating.style.top = `${Math.random() * 80 + 10}%`;
+                floating.style.left = `${Math.random() * 90 + 5}%`;
+                floating.style.width = `${Math.random() * 50 + 20}px`;
+                floating.style.height = floating.style.width;
+                floating.style.background = i % 2 === 0 ? 'var(--primary)' : 'var(--accent)';
+                floating.style.opacity = Math.random() * 0.1 + 0.05;
+                floating.style.animationDelay = `${Math.random() * 3}s`;
+                hero.appendChild(floating);
+            }
+        }
+
+        // Load destinations
+        function loadDestinations() {
+            const grid = document.getElementById('destinationsGrid');
+            grid.innerHTML = '';
+
+            destinations.forEach(dest => {
+                const card = document.createElement('div');
+                card.className = 'destination-card';
+                card.innerHTML = `
+                    <div class="destination-img">${dest.image}</div>
+                    <div class="destination-info">
+                        <h3>${dest.name}</h3>
+                        <div class="rating">
+                            ${generateRatingStars(dest.rating)}
+                        </div>
+                        <p>${dest.description}</p>
+                        <div class="price">From ${dest.price}</div>
+                        <button class="btn btn-primary" onclick="showBookingForm('destination', '${dest.name}', '${dest.price}')"><i class="fas fa-shopping-cart"></i> Book Now</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Generate rating stars
+        function generateRatingStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (halfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars + ` <span style="margin-left: 8px; color: #777;">${rating}</span>`;
+        }
+
+        // Set minimum date for date inputs
+        function setMinDate() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const todayStr = today.toISOString().split('T')[0];
+            const tomorrowStr = tomorrow.toISOString().split('T')[0];
+            
+            document.getElementById('checkin').min = todayStr;
+            document.getElementById('checkout').min = tomorrowStr;
+            
+            // Set min dates for booking forms
+            document.getElementById('hotel-checkin').min = todayStr;
+            document.getElementById('hotel-checkout').min = tomorrowStr;
+            document.getElementById('flight-depart').min = todayStr;
+            document.getElementById('flight-return').min = tomorrowStr;
+            document.getElementById('car-pickup').min = todayStr;
+            document.getElementById('car-dropoff').min = tomorrowStr;
+            document.getElementById('tour-date').min = todayStr;
+        }
+
+        // Search destinations
+        function searchDestinations() {
+            const destination = document.getElementById('destination').value;
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            const guests = document.getElementById('guests').value;
+
+            if (!destination) {
+                alert('Please select a destination');
+                return;
+            }
+
+            if (!checkin || !checkout) {
+                alert('Please select both check-in and check-out dates');
+                return;
+            }
+
+            // Filter destinations based on search
+            const filteredDestinations = destinations.filter(dest => 
+                dest.id === destination
+            );
+
+            const grid = document.getElementById('destinationsGrid');
+            grid.innerHTML = '';
+
+            if (filteredDestinations.length === 0) {
+                grid.innerHTML = '<p class="no-results">No destinations found matching your criteria. Try different dates or destination.</p>';
+                return;
+            }
+
+            filteredDestinations.forEach(dest => {
+                const card = document.createElement('div');
+                card.className = 'destination-card';
+                card.innerHTML = `
+                    <div class="destination-img">${dest.image}</div>
+                    <div class="destination-info">
+                        <h3>${dest.name}</h3>
+                        <div class="rating">
+                            ${generateRatingStars(dest.rating)}
+                        </div>
+                        <p>${dest.description}</p>
+                        <div class="price">From ${dest.price}</div>
+                        <button class="btn btn-primary" onclick="showBookingForm('destination', '${dest.name}', '${dest.price}')"><i class="fas fa-shopping-cart"></i> Book Now</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Scroll to destinations
+            document.getElementById('destinations').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show booking form
+        function showBookingForm(type, name, price) {
+            if (!currentUser) {
+                alert('Please login to book this service');
+                showLogin();
+                return;
+            }
+            
+            document.getElementById('bookingType').value = type;
+            document.getElementById('bookingItem').value = name;
+            document.getElementById('bookingItemName').textContent = name;
+            document.getElementById('bookingItemPrice').textContent = price;
+            
+            // Pre-fill user info if available
+            if (currentUser) {
+                document.getElementById('bookingFullName').value = currentUser.name;
+                document.getElementById('bookingEmail').value = currentUser.email;
+            }
+            
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        // Search hotels
+        function searchHotels() {
+            const destination = document.getElementById('hotel-destination').value;
+            const checkin = document.getElementById('hotel-checkin').value;
+            const checkout = document.getElementById('hotel-checkout').value;
+            const guests = document.getElementById('hotel-guests').value;
+            const rooms = document.getElementById('hotel-rooms').value;
+            
+            if (!destination || !checkin || !checkout) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Simulate API call
+            showLoading('Searching for hotels...');
+            
+            setTimeout(() => {
+                const hotels = [
+                    { name: "Grand Plaza Hotel", rating: 4.7, price: "$189", amenities: "Free WiFi, Pool, Breakfast", distance: "0.3 miles from center" },
+                    { name: "Seaside Resort", rating: 4.9, price: "$249", amenities: "Beachfront, Spa, Restaurant", distance: "Beachfront" },
+                    { name: "City Center Suites", rating: 4.5, price: "$129", amenities: "Free WiFi, Gym, Restaurant", distance: "Downtown" },
+                    { name: "Mountain View Lodge", rating: 4.8, price: "$159", amenities: "Mountain View, Free Parking, Pool", distance: "5 miles from center" }
+                ];
+                
+                displayResults(hotels, 'hotel');
+            }, 1500);
+        }
+        
+        // Search flights
+        function searchFlights() {
+            const from = document.getElementById('flight-from').value;
+            const to = document.getElementById('flight-to').value;
+            const depart = document.getElementById('flight-depart').value;
+            const returnDate = document.getElementById('flight-return').value;
+            const passengers = document.getElementById('flight-passengers').value;
+            const flightClass = document.getElementById('flight-class').value;
+            
+            if (!from || !to || !depart) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Simulate API call
+            showLoading('Searching for flights...');
+            
+            setTimeout(() => {
+                const flights = [
+                    { airline: "Sky Airlines", departure: "08:30 AM", arrival: "11:45 AM", duration: "3h 15m", price: "$349", stops: "Non-stop" },
+                    { airline: "Ocean Airways", departure: "02:15 PM", arrival: "05:45 PM", duration: "3h 30m", price: "$299", stops: "Non-stop" },
+                    { airline: "Global Connect", departure: "06:00 PM", arrival: "09:30 PM", duration: "3h 30m", price: "$279", stops: "Non-stop" },
+                    { airline: "Star Alliance", departure: "10:45 AM", arrival: "02:30 PM", duration: "3h 45m", price: "$399", stops: "Non-stop" }
+                ];
+                
+                displayResults(flights, 'flight');
+            }, 1500);
+        }
+        
+        // Search cars
+        function searchCars() {
+            const location = document.getElementById('car-location').value;
+            const pickup = document.getElementById('car-pickup').value;
+            const dropoff = document.getElementById('car-dropoff').value;
+            const carType = document.getElementById('car-type').value;
+            const drivers = document.getElementById('car-drivers').value;
+            
+            if (!location || !pickup || !dropoff) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Simulate API call
+            showLoading('Searching for cars...');
+            
+            setTimeout(() => {
+                const cars = [
+                    { model: "Toyota Corolla", type: "Compact", price: "$45/day", features: "Automatic, AC, 5 seats", company: "Best Rentals" },
+                    { model: "Honda CR-V", type: "SUV", price: "$65/day", features: "Automatic, AC, 5 seats", company: "DriveEasy" },
+                    { model: "BMW 3 Series", type: "Luxury", price: "$99/day", features: "Automatic, Leather, Premium", company: "Luxury Wheels" },
+                    { model: "Ford Mustang", type: "Convertible", price: "$89/day", features: "Convertible, Premium Sound", company: "Dream Cars" }
+                ];
+                
+                displayResults(cars, 'car');
+            }, 1500);
+        }
+        
+        // Search tours
+        function searchTours() {
+            const destination = document.getElementById('tour-destination').value;
+            const date = document.getElementById('tour-date').value;
+            const duration = document.getElementById('tour-duration').value;
+            const tourType = document.getElementById('tour-type').value;
+            const participants = document.getElementById('tour-participants').value;
+            
+            if (!destination || !date) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Simulate API call
+            showLoading('Searching for tours...');
+            
+            setTimeout(() => {
+                const tours = [
+                    { name: "Cultural Heritage Tour", duration: "3 days", price: "$299/person", highlights: "Museums, Historical Sites, Local Cuisine" },
+                    { name: "Adventure Expedition", duration: "5 days", price: "$499/person", highlights: "Hiking, Rafting, Camping" },
+                    { name: "Gourmet Food Tour", duration: "1 day", price: "$149/person", highlights: "Local Markets, Cooking Class, Tastings" },
+                    { name: "Wildlife Safari", duration: "4 days", price: "$399/person", highlights: "National Park, Safari Rides, Photography" }
+                ];
+                
+                displayResults(tours, 'tour');
+            }, 1500);
+        }
+        
+        // Show loading state
+        function showLoading(message) {
+            document.getElementById('bookingResults').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div class="loader" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <h3>${message}</h3>
+                </div>
+            `;
+        }
+        
+        // Display search results
+        function displayResults(results, type) {
+            const resultsContainer = document.getElementById('bookingResults');
+            resultsContainer.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-bookings">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>No Results Found</h3>
+                        <p>Try different search criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            results.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                
+                let details = '';
+                let buttonText = 'Book Now';
+                
+                if (type === 'hotel') {
+                    details = `
+                        <p><i class="fas fa-star"></i> Rating: ${item.rating}/5</p>
+                        <p><i class="fas fa-check-circle"></i> ${item.amenities}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> ${item.distance}</p>
+                    `;
+                } else if (type === 'flight') {
+                    details = `
+                        <p><i class="fas fa-plane-departure"></i> ${item.departure} → <i class="fas fa-plane-arrival"></i> ${item.arrival}</p>
+                        <p><i class="fas fa-clock"></i> Duration: ${item.duration}</p>
+                        <p><i class="fas fa-luggage-cart"></i> ${item.stops}</p>
+                    `;
+                } else if (type === 'car') {
+                    details = `
+                        <p><i class="fas fa-car"></i> ${item.type} - ${item.model}</p>
+                        <p><i class="fas fa-check-circle"></i> ${item.features}</p>
+                        <p><i class="fas fa-building"></i> ${item.company}</p>
+                    `;
+                } else if (type === 'tour') {
+                    details = `
+                        <p><i class="fas fa-clock"></i> Duration: ${item.duration}</p>
+                        <p><i class="fas fa-map-marked-alt"></i> Highlights: ${item.highlights}</p>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    <div class="result-info">
+                        <h4>${item.name || item.airline || item.model}</h4>
+                        ${details}
+                        <div class="result-price">${item.price}</div>
+                    </div>
+                    <button class="btn btn-primary book-btn" onclick="showBookingForm('${type}', '${item.name || item.airline || item.model}', '${item.price}')">
+                        <i class="fas fa-shopping-cart"></i> ${buttonText}
+                    </button>
+                `;
+                
+                resultsContainer.appendChild(card);
+            });
+        }
+        
+        // Submit booking
+        function submitBooking(event) {
+            event.preventDefault();
+            
+            const type = document.getElementById('bookingType').value;
+            const item = document.getElementById('bookingItem').value;
+            const price = document.getElementById('bookingItemPrice').textContent;
+            const name = document.getElementById('bookingFullName').value;
+            const email = document.getElementById('bookingEmail').value;
+            const phone = document.getElementById('bookingPhone').value;
+            const date = document.getElementById('bookingDate').value;
+            const guests = document.getElementById('bookingGuests').value;
+            const notes = document.getElementById('bookingNotes').value;
+            
+            const booking = {
+                id: Date.now(),
+                type: type,
+                item: item,
+                price: price,
+                name: name,
+                email: email,
+                phone: phone,
+                date: date,
+                guests: guests,
+                notes: notes,
+                status: 'Confirmed',
+                bookingDate: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+
+            userBookings.push(booking);
+            
+            // Show confirmation
+            showBookingConfirmation(booking);
+            
+            // Reset form
+            document.querySelector('.booking-form-modal').reset();
+            closeBookingModal();
+            
+            // Update dashboard
+            loadUserBookings();
+        }
+        
+        // Show booking confirmation
+        function showBookingConfirmation(booking) {
+            const message = `
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-check-circle" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
+                    <h2 style="color: #333; margin-bottom: 15px;">Booking Confirmed!</h2>
+                    <p style="font-size: 1.2rem; margin-bottom: 25px;">
+                        Your ${booking.type} for <strong>${booking.item}</strong> has been successfully booked.
+                    </p>
+                    <button class="btn btn-accent" onclick="closeAuthModal(); showDashboard()">
+                        <i class="fas fa-tachometer-alt"></i> View in Dashboard
+                    </button>
+                </div>
+            `;
+            
+            // Show in modal
+            document.getElementById('authContent').innerHTML = message;
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        // Close booking modal
+        function closeBookingModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        // Show login form
+        function showLogin() {
+            const authContent = document.getElementById('authContent');
+            authContent.innerHTML = `
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Login to Your Account</h2>
+                <form class="booking-form" onsubmit="login(event)">
+                    <div class="form-group-full">
+                        <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group-full">
+                        <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div style="text-align: right; margin-bottom: 1rem;">
+                        <a href="#" style="color: var(--primary); text-decoration: none;">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
+                </form>
+                <p style="text-align: center; margin-top: 1.5rem; color: #666;">
+                    Don't have an account? <a href="#" onclick="showSignup()" style="color: var(--accent); font-weight: 600;">Sign up</a>
+                </p>
+            `;
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        // Show signup form
+        function showSignup() {
+            const authContent = document.getElementById('authContent');
+            authContent.innerHTML = `
+                <h2 style="text-align: center; margin-bottom: 1.5rem;">Create New Account</h2>
+                <form class="booking-form" onsubmit="signup(event)">
+                    <div class="form-group-full">
+                        <label for="signupName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group-full">
+                        <label for="signupEmail"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="signupPassword"><i class="fas fa-lock"></i> Password</label>
+                            <input type="password" id="signupPassword" placeholder="Create a password" required>
+                        </div>
+                        <div class="form-group-full">
+                            <label for="signupConfirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                            <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-accent"><i class="fas fa-user-plus"></i> Sign Up</button>
+                </form>
+                <p style="text-align: center; margin-top: 1.5rem; color: #666;">
+                    Already have an account? <a href="#" onclick="showLogin()" style="color: var(--primary); font-weight: 600;">Login</a>
+                </p>
+            `;
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        // Login
+        function login(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate loading
+            const authContent = document.getElementById('authContent');
+            authContent.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div class="loader" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <h3>Logging you in...</h3>
+                </div>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                currentUser = {
+                    name: email.split('@')[0].charAt(0).toUpperCase() + email.split('@')[0].slice(1),
+                    email: email
+                };
+                
+                updateAuthUI();
+                closeAuthModal();
+                showDashboard();
+            }, 1500);
+        }
+
+        // Signup
+        function signup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            // Simulate loading
+            const authContent = document.getElementById('authContent');
+            authContent.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div class="loader" style="font-size: 3rem; color: var(--accent); margin-bottom: 20px;">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <h3>Creating your account...</h3>
+                </div>
+            `;
+            
+            // Simulate API call
+            setTimeout(() => {
+                currentUser = {
+                    name: name,
+                    email: email
+                };
+                
+                updateAuthUI();
+                closeAuthModal();
+                showDashboard();
+            }, 1500);
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            userBookings = [];
+            updateAuthUI();
+            document.getElementById('userDashboard').style.display = 'none';
+            
+            // Show logout message
+            const authContent = document.getElementById('authContent');
+            authContent.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <i class="fas fa-check-circle" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
+                    <h2>Logged Out Successfully</h2>
+                    <p style="margin-top: 15px;">You have been logged out of your account.</p>
+                    <button class="btn btn-primary" onclick="closeAuthModal()" style="margin-top: 20px;">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            `;
+            document.getElementById('authModal').style.display = 'block';
+        }
+
+        // Update authentication UI
+        function updateAuthUI() {
+            const authButtons = document.querySelector('.auth-buttons');
+            
+            if (currentUser) {
+                authButtons.innerHTML = `
+                    <button class="btn btn-accent" onclick="showDashboard()"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+                    <button class="btn btn-secondary" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                `;
+                document.getElementById('userName').textContent = currentUser.name;
+                loadUserBookings();
+            } else {
+                authButtons.innerHTML = `
+                    <button class="btn btn-secondary" onclick="showLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button class="btn btn-primary" onclick="showSignup()"><i class="fas fa-user-plus"></i> Sign Up</button>
+                `;
+            }
+        }
+
+        // Show dashboard
+        function showDashboard() {
+            document.getElementById('userDashboard').style.display = 'block';
+            document.getElementById('userDashboard').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Load user bookings
+        function loadUserBookings() {
+            const bookingsList = document.getElementById('bookingsList');
+            
+            if (userBookings.length === 0) {
+                bookingsList.innerHTML = `
+                    <div class="no-bookings">
+                        <i class="fas fa-suitcase-rolling"></i>
+                        <h3>No Bookings Yet</h3>
+                        <p>You haven't made any bookings yet. Start planning your next adventure!</p>
+                        <button class="btn btn-accent" onclick="document.getElementById('booking').scrollIntoView({ behavior: 'smooth' })" style="margin-top: 1.5rem;">
+                            <i class="fas fa-plus"></i> Book a Trip
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            bookingsList.innerHTML = '';
+            userBookings.forEach(booking => {
+                const bookingItem = document.createElement('div');
+                bookingItem.className = 'booking-item';
+                
+                bookingItem.innerHTML = `
+                    <div class="booking-info">
+                        <h4>${booking.type}: ${booking.item}</h4>
+                        <p><i class="far fa-calendar"></i> Booked on: ${booking.bookingDate}</p>
+                        <p><i class="fas fa-plane-departure"></i> Travel Date: ${booking.date}</p>
+                        <p><i class="fas fa-user-friends"></i> Guests: ${booking.guests}</p>
+                        <p><i class="fas fa-tag"></i> Price: ${booking.price}</p>
+                        <div class="booking-status confirmed">${booking.status}</div>
+                    </div>
+                `;
+                bookingsList.appendChild(bookingItem);
+            });
+        }
+
+        // Close auth modal
+        function closeAuthModal() {
+            document.getElementById('authModal').style.display = 'none';
+        }
+
+        // Check user session (simulated)
+        function checkUserSession() {
+            // For demo, start with no user logged in
+            currentUser = null;
+            userBookings = [];
+            updateAuthUI();
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const authModal = document.getElementById('authModal');
+            const bookingModal = document.getElementById('bookingModal');
+            
+            if (event.target === authModal) {
+                authModal.style.display = 'none';
+            }
+            if (event.target === bookingModal) {
+                bookingModal.style.display = 'none';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
