@@ -1,1 +1,1 @@
-file:///C:/Users/Varun/Pictures/Screenshots/Screenshot%202025-06-17%20000331.png
+C:\Users\Varun\Pictures\Screenshots\"C:\Users\Varun\Pictures\Screenshots\Screenshot 2025-06-17 000331.png"
